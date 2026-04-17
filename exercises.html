@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Lab — Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111318;
+    --border: #1e2229;
+    --border-bright: #2e3540;
+    --text: #c8d0dc;
+    --muted: #4a5568;
+    --accent: #4fffb0;
+    --accent2: #ff6b6b;
+    --accent3: #ffd93d;
+    --accent4: #6bcbff;
+    --glow: rgba(79, 255, 176, 0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(79,255,176,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,255,176,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 64px;
+    border-bottom: 1px solid var(--border-bright);
+    padding-bottom: 40px;
+  }
+
+  .header-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 400;
+    font-style: italic;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+
+  h1 span {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .meta-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Objectives bar */
+  .objectives {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+
+  @media(min-width: 600px) {
+    .objectives { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .obj-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 16px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .obj-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .obj-card:nth-child(1)::before { background: var(--accent); }
+  .obj-card:nth-child(2)::before { background: var(--accent4); }
+  .obj-card:nth-child(3)::before { background: var(--accent3); }
+  .obj-card:nth-child(4)::before { background: var(--accent2); }
+
+  .obj-icon { font-size: 20px; margin-bottom: 8px; }
+  .obj-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .obj-title { font-size: 12px; color: #fff; font-weight: 700; }
+
+  /* Section titles */
+  .phase-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .phase-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Exercise cards */
+  .exercises {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exercise {
+    border: 1px solid var(--border);
+    border-top: none;
+    background: var(--surface);
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .exercise:first-child {
+    border-top: 1px solid var(--border);
+    border-radius: 4px 4px 0 0;
+  }
+
+  .exercise:last-child {
+    border-radius: 0 0 4px 4px;
+  }
+
+  .exercise:hover { background: #151820; }
+  .exercise.open { background: #131720; }
+
+  .exercise-header {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+  }
+
+  .ex-number {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--border-bright);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .exercise.open .ex-number { color: var(--accent); }
+
+  .ex-info {}
+  .ex-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 17px;
+    color: #fff;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .ex-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .tag-ts    { color: var(--accent);  border-color: rgba(79,255,176,0.3);  background: rgba(79,255,176,0.05); }
+  .tag-audio { color: var(--accent4); border-color: rgba(107,203,255,0.3); background: rgba(107,203,255,0.05); }
+  .tag-dsp   { color: var(--accent3); border-color: rgba(255,217,61,0.3);  background: rgba(255,217,61,0.05); }
+  .tag-algo  { color: var(--accent2); border-color: rgba(255,107,107,0.3); background: rgba(255,107,107,0.05); }
+
+  .ex-difficulty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .diff-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .diff-bars {
+    display: flex;
+    gap: 3px;
+  }
+
+  .diff-bar {
+    width: 8px;
+    height: 16px;
+    border-radius: 1px;
+    background: var(--border);
+  }
+
+  .diff-bar.filled { background: var(--accent); }
+  .diff-bar.filled.med { background: var(--accent3); }
+  .diff-bar.filled.hard { background: var(--accent2); }
+
+  /* Expanded content */
+  .exercise-body {
+    display: none;
+    padding: 0 24px 28px 88px;
+    border-top: 1px solid var(--border);
+  }
+
+  .exercise.open .exercise-body { display: block; }
+
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-top: 24px;
+  }
+
+  @media(min-width: 700px) {
+    .body-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .body-section-title {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .body-text {
+    color: #8899aa;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .paper-ref {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: rgba(79,255,176,0.04);
+    border: 1px solid rgba(79,255,176,0.12);
+    border-radius: 3px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .paper-ref strong {
+    display: block;
+    color: var(--accent);
+    margin-bottom: 2px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #8899aa;
+    align-items: flex-start;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    min-width: 18px;
+    height: 18px;
+    background: var(--border-bright);
+    color: var(--accent);
+    border-radius: 2px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .deliverable {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-left: 2px solid var(--accent);
+    background: rgba(79,255,176,0.03);
+    font-size: 11px;
+    color: var(--accent);
+  }
+
+  /* Chevron */
+  .chevron {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 10px;
+    transition: transform 0.2s;
+  }
+
+  .exercise.open .chevron { transform: translateY(-50%) rotate(180deg); }
+
+  /* Timeline connector */
+  .timeline-node {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0 8px;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .timeline-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+  }
+
+  /* Progress strip at top */
+  .progress-strip {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 48px;
+  }
+
+  .progress-seg {
+    height: 3px;
+    flex: 1;
+    border-radius: 2px;
+    background: var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .progress-seg.active { background: var(--accent); }
+  .progress-seg:hover { background: var(--border-bright); }
+
+  /* Animate in */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .exercise {
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .exercise:nth-child(1)  { animation-delay: 0.05s; }
+  .exercise:nth-child(2)  { animation-delay: 0.10s; }
+  .exercise:nth-child(3)  { animation-delay: 0.15s; }
+  .exercise:nth-child(4)  { animation-delay: 0.20s; }
+  .exercise:nth-child(5)  { animation-delay: 0.25s; }
+  .exercise:nth-child(6)  { animation-delay: 0.30s; }
+  .exercise:nth-child(7)  { animation-delay: 0.35s; }
+  .exercise:nth-child(8)  { animation-delay: 0.40s; }
+  .exercise:nth-child(9)  { animation-delay: 0.45s; }
+  .exercise:nth-child(10) { animation-delay: 0.50s; }
+
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-tag">// curriculum · signal_lab · 2025</div>
+    <h1>Dal <span>Segnale</span><br>al Suono</h1>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-dot"></span> 10 esercitazioni progressive</div>
+      <div class="meta-item"><span class="meta-dot" style="background:var(--accent4)"></span> TypeScript · Web Audio API</div>
+      <div class="meta-item"><span class="meta-dot" style="background:var(--accent3)"></span> DSP · Signal Theory</div>
+    </div>
+  </div>
+
+  <!-- Objectives -->
+  <div class="objectives">
+    <div class="obj-card">
+      <div class="obj-icon">⬡</div>
+      <div class="obj-label">Obiettivo 1</div>
+      <div class="obj-title">TypeScript avanzato</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-icon">◈</div>
+      <div class="obj-label">Obiettivo 2</div>
+      <div class="obj-title">Web Audio API</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-icon">∿</div>
+      <div class="obj-label">Obiettivo 3</div>
+      <div class="obj-title">Teoria dei segnali</div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-icon">⌬</div>
+      <div class="obj-label">Obiettivo 4</div>
+      <div class="obj-title">Algoritmi DSP</div>
+    </div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase-label">Fase 01 — Fondamenta</div>
+  <div class="exercises" id="ex-list">
+
+    <!-- EX 01 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">01</div>
+        <div class="ex-info">
+          <div class="ex-title">Oscillatore sinusoidale in TypeScript</div>
+          <div class="ex-tags">
+            <span class="tag tag-ts">TypeScript</span>
+            <span class="tag tag-audio">Web Audio</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar"></div>
+            <div class="diff-bar"></div>
+            <div class="diff-bar"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Introduzione all'<code>AudioContext</code> e ai nodi fondamentali della Web Audio API. Tipi TypeScript per i nodi audio, generics di base, type safety su parametri numerici come frequenza e ampiezza.
+            </div>
+            <div class="paper-ref">
+              <strong>Riferimento</strong>
+              W3C Web Audio API Spec §1–4 — <em>Basic concepts and graph model</em>
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Crea un <code>AudioContext</code> tipizzato, gestisci <code>suspended</code> state</li>
+              <li>Configura un <code>OscillatorNode</code> con tipi espliciti (<code>OscillatorType</code>)</li>
+              <li>Collega a <code>GainNode</code> e <code>destination</code></li>
+              <li>Esponi i parametri tramite interfacce TS (<code>OscConfig</code>)</li>
+              <li>Aggiungi un fade-in/fade-out con <code>linearRampToValueAtTime</code></li>
+            </ol>
+            <div class="deliverable">▸ Output: classe <code>SineOscillator</code> tipizzata e una UI minima con slider</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <!-- EX 02 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">02</div>
+        <div class="ex-info">
+          <div class="ex-title">Campionamento e aliasing: visualizzazione interattiva</div>
+          <div class="ex-tags">
+            <span class="tag tag-dsp">Teoria segnali</span>
+            <span class="tag tag-ts">TypeScript</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar"></div>
+            <div class="diff-bar"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Teorema di Nyquist-Shannon: perché la frequenza di campionamento deve essere almeno il doppio della massima frequenza del segnale. Visualizzazione dell'aliasing su canvas con TypeScript strict mode.
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Shannon, C.E. (1949) — <em>Communication in the Presence of Noise</em>, Proc. IRE 37(1)
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Genera un segnale continuo (sinusoide) con frequenza configurabile</li>
+              <li>Campionalo a diversi <code>sampleRate</code> usando un array tipizzato <code>Float32Array</code></li>
+              <li>Visualizza su <code>CanvasRenderingContext2D</code> segnale continuo vs campionato</li>
+              <li>Mostra il fenomeno dell'aliasing al di sotto di Nyquist</li>
+              <li>Aggiungi slider interattivo per frequenza e sample rate</li>
+            </ol>
+            <div class="deliverable">▸ Output: visualizer interattivo aliasing con type-safe parameter handling</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <!-- EX 03 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">03</div>
+        <div class="ex-info">
+          <div class="ex-title">Analisi di Fourier: DFT implementata da zero</div>
+          <div class="ex-tags">
+            <span class="tag tag-dsp">DSP</span>
+            <span class="tag tag-algo">Algoritmo</span>
+            <span class="tag tag-ts">TypeScript</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              La Discrete Fourier Transform (DFT) da zero: numeri complessi in TS, comprensione della decomposizione frequenziale. Differenza concettuale tra DFT e FFT (complessità O(n²) vs O(n log n)).
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Cooley & Tukey (1965) — <em>An Algorithm for the Machine Calculation of Complex Fourier Series</em>, Math. Comp. 19(90)
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Definisci un tipo <code>Complex &#123; re: number; im: number &#125;</code></li>
+              <li>Implementa <code>dft(signal: Float32Array): Complex[]</code></li>
+              <li>Calcola magnitudine e fase da numeri complessi</li>
+              <li>Visualizza lo spettro di magnitudine su canvas</li>
+              <li>Confronta runtime DFT vs nativa <code>AnalyserNode</code> della Web Audio API</li>
+            </ol>
+            <div class="deliverable">▸ Output: libreria DFT tipizzata + spettro visualizzato in tempo reale</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+  </div><!-- end phase 1 -->
+
+  <div class="timeline-node">
+    <span class="timeline-line"></span>
+    <span>Fase 02 — Intermedio</span>
+    <span class="timeline-line" style="background: linear-gradient(90deg, transparent, var(--border))"></span>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="exercises">
+
+    <!-- EX 04 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">04</div>
+        <div class="ex-info">
+          <div class="ex-title">FFT con AnalyserNode e visualizzatore spettrale live</div>
+          <div class="ex-tags">
+            <span class="tag tag-audio">Web Audio</span>
+            <span class="tag tag-algo">FFT</span>
+            <span class="tag tag-ts">TypeScript</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar filled"></div>
+            <div class="diff-bar"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Uso pratico di <code>AnalyserNode</code>, <code>fftSize</code>, <code>frequencyBinCount</code>. Finestre di Hann/Hamming per ridurre lo spectral leakage. Architettura a generics in TS per nodi audio riutilizzabili.
+            </div>
+            <div class="paper-ref">
+              <strong>Riferimento</strong>
+              Harris, F.J. (1978) — <em>On the Use of Windows for Harmonic Analysis with DFT</em>, Proc. IEEE 66(1)
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Costruisci un grafo audio: microfono → <code>AnalyserNode</code> → destination</li>
+              <li>Leggi <code>getFloatFrequencyData</code> in un <code>requestAnimationFrame</code> loop</li>
+              <li>Applica manualmente una finestra di Hann al segnale</li>
+              <li>Disegna lo spettro su canvas con scala logaritmica in dB</li>
+              <li>Crea un pattern <code>AudioNodeWrapper&lt;T extends AudioNode&gt;</code> in TS</li>
+            </ol>
+            <div class="deliverable">▸ Output: spectrum analyzer live con windowing e generics TS</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <!-- EX 05 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">05</div>
+        <div class="ex-info">
+          <div class="ex-title">Filtri IIR: implementazione biquad da paper</div>
+          <div class="ex-tags">
+            <span class="tag tag-dsp">DSP</span>
+            <span class="tag tag-algo">IIR Filter</span>
+            <span class="tag tag-audio">Web Audio</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Filtri IIR biquad: coefficienti a0–a2, b0–b2, equazione alle differenze. Risposta in frequenza e diagramma di Bode. Confronto implementazione manuale vs <code>BiquadFilterNode</code> nativo. Pattern Builder in TS.
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Zölzer, U. (2011) — <em>DAFX: Digital Audio Effects</em>, cap. 2 — Filters (Wiley). <br>Cookbook: Audio EQ Cookbook di R. Bristow-Johnson
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Implementa <code>BiquadFilter</code> con coefficienti calcolati per LPF, HPF, BPF</li>
+              <li>Applica il filtro sample-per-sample su un <code>AudioWorkletProcessor</code></li>
+              <li>Plotta la risposta in frequenza (Bode plot) su canvas</li>
+              <li>Confronta con <code>BiquadFilterNode</code> nativo usando lo stesso segnale di test</li>
+              <li>Usa il pattern Builder: <code>FilterBuilder.lowpass(fc).q(0.7).build()</code></li>
+            </ol>
+            <div class="deliverable">▸ Output: filtro biquad in AudioWorklet + Bode plot interattivo</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <!-- EX 06 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">06</div>
+        <div class="ex-info">
+          <div class="ex-title">Convoluzione e reverb artificiale</div>
+          <div class="ex-tags">
+            <span class="tag tag-dsp">Convoluzione</span>
+            <span class="tag tag-audio">Web Audio</span>
+            <span class="tag tag-algo">Algoritmo</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar filled med"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              La convoluzione nel dominio del tempo e la sua equivalenza con la moltiplicazione in frequenza. Impulse Response (IR) e il modello LTI. <code>ConvolverNode</code> in Web Audio API. Decoratori TypeScript.
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Moorer, J.A. (1979) — <em>About This Reverberation Business</em>, Computer Music Journal 3(2). <br>+ spiegazione matematica convoluzione lineare vs circolare
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Implementa convoluzione lineare brute-force su <code>Float32Array</code></li>
+              <li>Carica un Impulse Response reale (es. chiesa, sala) come <code>AudioBuffer</code></li>
+              <li>Usa <code>ConvolverNode</code> con normalize flag</li>
+              <li>Confronta convoluzione nel tempo vs FFT-based (overlap-add)</li>
+              <li>Decora la classe con <code>@memoize</code> per caching dei buffer processati</li>
+            </ol>
+            <div class="deliverable">▸ Output: reverb convolutivo con IR caricabile e confronto algoritmi</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+  </div>
+
+  <div class="timeline-node">
+    <span class="timeline-line"></span>
+    <span>Fase 03 — Avanzato</span>
+    <span class="timeline-line" style="background: linear-gradient(90deg, transparent, var(--border))"></span>
+  </div>
+
+  <div class="exercises">
+
+    <!-- EX 07 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">07</div>
+        <div class="ex-info">
+          <div class="ex-title">Phase Vocoder: pitch shifting nel dominio della frequenza</div>
+          <div class="ex-tags">
+            <span class="tag tag-algo">Phase Vocoder</span>
+            <span class="tag tag-dsp">STFT</span>
+            <span class="tag tag-ts">TypeScript</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Short-Time Fourier Transform (STFT), analisi phase-continuous, accumulo di fase. Il phase vocoder è il cuore di tutti gli algoritmi professionali di time-stretching e pitch-shifting. Gestione avanzata di ArrayBuffer e TypedArrays in TS.
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Laroche & Dolson (1999) — <em>Improved Phase Vocoder Time-Scale Modification of Audio</em>, IEEE TASLP 7(3). <br>Flanagan & Golden (1966) — <em>Phase Vocoder</em>, Bell System Technical Journal
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Implementa STFT: frame overlappati + finestra + FFT</li>
+              <li>Estrai magnitudine e fase per ogni bin frequenziale</li>
+              <li>Calcola la derivata di fase per stimare le frequenze istantanee</li>
+              <li>Rimappa le fasi per un pitch shift di +/- N semitoni</li>
+              <li>ISTFT con overlap-add per risintetizzare il segnale</li>
+              <li>Wrappa tutto in un <code>AudioWorkletProcessor</code> con TypeScript</li>
+            </ol>
+            <div class="deliverable">▸ Output: pitch shifter real-time su microfono input con controllo semitoni</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <!-- EX 08 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">08</div>
+        <div class="ex-info">
+          <div class="ex-title">Onset detection e beat tracking</div>
+          <div class="ex-tags">
+            <span class="tag tag-algo">ML/DSP</span>
+            <span class="tag tag-dsp">Feature Extraction</span>
+            <span class="tag tag-audio">Web Audio</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Spectral flux come onset detection function, peak picking con soglia adattiva, comb filter per stimare il BPM. Architettura a pipeline funzionale tipizzata con mapped types e conditional types in TS.
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Dixon, S. (2006) — <em>Onset Detection Revisited</em>, DAFx Proc. <br>Scheirer, E.D. (1998) — <em>Tempo and Beat Analysis of Acoustic Musical Signals</em>, JASA 103(1)
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Calcola lo spectral flux frame-per-frame dallo spettro FFT</li>
+              <li>Applica half-wave rectification e smoothing gaussiano</li>
+              <li>Peak picking con soglia adattiva locale</li>
+              <li>Stima BPM con autocorrelazione degli onset intervals</li>
+              <li>Visualizza onset markers e BPM in real-time</li>
+              <li>Modella la pipeline con tipi <code>Pipeline&lt;Input, Output&gt;</code></li>
+            </ol>
+            <div class="deliverable">▸ Output: beat tracker real-time con tap tempo display e visualizzazione onset</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <!-- EX 09 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">09</div>
+        <div class="ex-info">
+          <div class="ex-title">Sintesi FM: implementazione dell'algoritmo Chowning</div>
+          <div class="ex-tags">
+            <span class="tag tag-algo">FM Synthesis</span>
+            <span class="tag tag-dsp">Teoria segnali</span>
+            <span class="tag tag-audio">Web Audio</span>
+            <span class="tag tag-ts">TypeScript</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Frequency Modulation synthesis: rapporto operatore C/M, indice di modulazione, sideband, teorema di Bessel per lo spettro risultante. Implementazione di una struttura ad operatori tipizzata con discriminated unions in TS.
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Chowning, J.M. (1973) — <em>The Synthesis of Complex Audio Spectra by Means of Frequency Modulation</em>, JAES 21(7). <br>Schottstaedt (1977) — <em>The Simulation of Natural Instrument Tones</em>
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Implementa un singolo operatore FM: carrier + modulator con ratio e index</li>
+              <li>Costruisci una struttura ad albero di operatori (4-op, topologie DX7)</li>
+              <li>Modella le envelope ADSR con AudioParam automation</li>
+              <li>Implementa le 6 topologie classiche del Yamaha DX7</li>
+              <li>Visualizza lo spettro risultante al variare dell'indice di modulazione</li>
+              <li>Usa discriminated unions: <code>type Topology = Serial | Parallel | Feedback</code></li>
+            </ol>
+            <div class="deliverable">▸ Output: FM synth a 4 operatori, polifonico, con editor topologie</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+    <!-- EX 10 -->
+    <div class="exercise" onclick="toggle(this)">
+      <div class="exercise-header">
+        <div class="ex-number">10</div>
+        <div class="ex-info">
+          <div class="ex-title">Source Separation: NMF spettrale su audio mono</div>
+          <div class="ex-tags">
+            <span class="tag tag-algo">NMF</span>
+            <span class="tag tag-dsp">Machine Learning</span>
+            <span class="tag tag-ts">TypeScript</span>
+          </div>
+        </div>
+        <div class="ex-difficulty">
+          <div class="diff-label">difficoltà</div>
+          <div class="diff-bars">
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+            <div class="diff-bar filled hard"></div>
+          </div>
+        </div>
+      </div>
+      <div class="exercise-body">
+        <div class="body-grid">
+          <div>
+            <div class="body-section-title">Cosa impari</div>
+            <div class="body-text">
+              Non-negative Matrix Factorization (NMF) applicata alla spettrogramma: fattorizzazione W·H per separare componenti armoniche e percussive. Update rules moltiplicative. TypeScript avanzato: type-level matrix math, readonly tuples, template literal types.
+            </div>
+            <div class="paper-ref">
+              <strong>Paper</strong>
+              Lee & Seung (1999) — <em>Learning the Parts of Objects by Non-negative Matrix Factorization</em>, Nature 401. <br>Virtanen (2007) — <em>Monaural Sound Source Separation by NMF with Temporal Continuity</em>, IEEE TASLP 15(3)
+            </div>
+          </div>
+          <div>
+            <div class="body-section-title">Step operativi</div>
+            <ol class="steps">
+              <li>Calcola lo spettrogramma di potenza (STFT magnitude²) di un file audio</li>
+              <li>Implementa NMF con update rules moltiplicative KL-divergence</li>
+              <li>Separa K=2 componenti: armonica e percussiva (HPSS)</li>
+              <li>Risintetizza ogni componente applicando le maschere W·H allo spettrogramma</li>
+              <li>Esporta le tracce separate come <code>AudioBuffer</code> scaricabile</li>
+              <li>Modella le matrici con <code>Matrix&lt;Rows extends number, Cols extends number&gt;</code></li>
+            </ol>
+            <div class="deliverable">▸ Output: source separator browser-based — carica un .wav, scarica le tracce</div>
+          </div>
+        </div>
+      </div>
+      <div class="chevron">▼</div>
+    </div>
+
+  </div>
+
+  <!-- Footer summary -->
+  <div style="margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;">
+    <div>
+      <div class="body-section-title" style="margin-bottom:8px">Stack tecnico</div>
+      <div style="color: var(--muted); font-size: 11px; line-height: 2;">
+        TypeScript 5.x strict<br>Web Audio API<br>AudioWorklet API<br>Canvas 2D API<br>WebAssembly (opzionale)
+      </div>
+    </div>
+    <div>
+      <div class="body-section-title" style="margin-bottom:8px">Concetti DSP</div>
+      <div style="color: var(--muted); font-size: 11px; line-height: 2;">
+        Nyquist · DFT · FFT<br>IIR / FIR Filters<br>Convoluzione · STFT<br>Phase Vocoder · NMF<br>FM Synthesis
+      </div>
+    </div>
+    <div>
+      <div class="body-section-title" style="margin-bottom:8px">Pattern TS</div>
+      <div style="color: var(--muted); font-size: 11px; line-height: 2;">
+        Generics · Builder<br>Discriminated Unions<br>Decorators · Mapped Types<br>Conditional Types<br>Template Literals
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function toggle(el) {
+    const wasOpen = el.classList.contains('open');
+    document.querySelectorAll('.exercise.open').forEach(e => e.classList.remove('open'));
+    if (!wasOpen) el.classList.add('open');
+  }
+</script>
+</body>
+</html>
