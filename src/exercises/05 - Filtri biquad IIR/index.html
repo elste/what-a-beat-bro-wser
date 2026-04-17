@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>05 - Filtri biquad IIR</title>
+</head>
+<body>
+  <h1>05 - Filtri biquad IIR</h1>
+  <pre>Ambito: DSP, IIR, AudioWorklet, TypeScript.
+
+Obiettivi
+Studiare i filtri biquad del secondo ordine e implementarli in AudioWorkletProcessor.
+
+Step
+1. Calcolare i coefficienti LPF, HPF e BPF a partire da fc e Q.
+2. Implementare l'equazione alle differenze in Direct Form I.
+3. Calcolare la risposta in frequenza e produrre un Bode plot.
+4. Confrontare l'output con BiquadFilterNode.
+5. Creare un builder per il filtro.
+
+Riferimento: Bristow-Johnson, audio EQ cookbook, https://www.w3.org/TR/audio-eq-cookbook/.
+Deliverable: filtro biquad in AudioWorklet con grafico interattivo.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>

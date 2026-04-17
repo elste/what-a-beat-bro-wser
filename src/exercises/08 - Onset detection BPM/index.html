@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>08 - Onset detection BPM</title>
+</head>
+<body>
+  <h1>08 - Onset detection BPM</h1>
+  <pre>Ambito: MIR, spectral flux, TypeScript.
+
+Obiettivi
+Costruire una pipeline per onset detection, peak picking e stima del BPM in tempo reale.
+
+Step
+1. Calcolare lo spectral flux frame per frame.
+2. Applicare half-wave rectification e smoothing gaussiano.
+3. Eseguire peak picking con soglia adattiva.
+4. Stimare il BPM tramite autocorrelazione.
+5. Visualizzare onset markers e BPM stimato.
+6. Modellare la pipeline come funzione tipizzata.
+
+Riferimento: Dixon, 2006, DAFx 2006, https://www.dafx.de/paper-archive/2006/papers/p_133.pdf.
+Deliverable: beat tracker real-time con display BPM.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>

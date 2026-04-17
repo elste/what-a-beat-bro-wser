@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>09 - Sintesi FM Chowning</title>
+</head>
+<body>
+  <h1>09 - Sintesi FM Chowning</h1>
+  <pre>Ambito: FM synthesis, DSP, Web Audio API, TypeScript.
+
+Obiettivi
+Studiare la sintesi FM, le sideband e la modellazione delle topologie di operatori.
+
+Step
+1. Implementare un singolo operatore FM con ratio e indice.
+2. Costruire una struttura ad albero di operatori a quattro elementi.
+3. Modellare le topologie come discriminated union in TypeScript.
+4. Aggiungere envelope ADSR all'indice di modulazione.
+5. Visualizzare lo spettro risultante.
+
+Riferimento: Chowning, 1973, AES E-Library, https://www.aes.org/e-lib/browse.cfm?elib=1954.
+Deliverable: sintetizzatore FM a quattro operatori con editor di topologie.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>

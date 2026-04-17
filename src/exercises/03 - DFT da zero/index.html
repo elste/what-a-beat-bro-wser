@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>03 - DFT da zero</title>
+</head>
+<body>
+  <h1>03 - DFT da zero</h1>
+  <pre>Ambito: DSP, algoritmo, TypeScript.
+
+Obiettivi
+Comprendere la Discrete Fourier Transform come strumento di analisi spettrale e confrontarne la complessita con l'FFT.
+
+Step
+1. Definire il tipo Complex con operazioni ausiliarie.
+2. Implementare dft(signal: Float32Array): Complex[].
+3. Ricavare magnitudine e fase per ogni bin frequenziale.
+4. Visualizzare lo spettro di magnitudine su canvas.
+5. Confrontare il runtime della DFT con strumenti nativi.
+
+Riferimento: Cooley e Tukey, 1965, DOI 10.1090/S0025-5718-1965-0178586-1.
+Deliverable: libreria DFT tipizzata e spettro visualizzato su segnale sintetico.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>

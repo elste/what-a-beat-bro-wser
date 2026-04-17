@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 - Campionamento aliasing</title>
+</head>
+<body>
+  <h1>02 - Campionamento aliasing</h1>
+  <pre>Ambito: Teoria dei segnali, TypeScript.
+
+Obiettivi
+Studio del teorema di Nyquist-Shannon e visualizzazione dell'aliasing su canvas con array tipizzati.
+
+Step
+1. Generare un segnale sinusoidale continuo con frequenza configurabile.
+2. Campionarlo a diversi valori di sampleRate.
+3. Disegnare il segnale continuo e quello ricampionato.
+4. Mostrare l'aliasing quando f > sampleRate / 2.
+5. Aggiungere controlli interattivi per frequenza e sample rate.
+
+Riferimento: Shannon, 1949, DOI 10.1109/JRPROC.1949.232969.
+Deliverable: visualizzatore interattivo del campionamento corretto e dell'aliasing.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>

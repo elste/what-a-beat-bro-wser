@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Curriculum — TypeScript &amp; Digital Audio Signal Processing</title>
+</head>
+<body>
+
+<h1>Curriculum &mdash; TypeScript &amp; Digital Audio Signal Processing</h1>
+<p><i>10 esercitazioni progressive basate su paper originali, dalla più semplice alla più complessa.</i></p>
+
+<hr>
+
+<h2>Obiettivi</h2>
+<ol>
+  <li>Migliorare TypeScript (strict mode, generics, pattern avanzati)</li>
+  <li>Imparare la Web Audio API (nodi, AudioWorklet, scheduling)</li>
+  <li>Comprendere la teoria dei segnali (campionamento, spettro, filtraggio)</li>
+  <li>Implementare gli algoritmi DSP fondamentali</li>
+</ol>
+
+<hr>
+
+<h2>Fase I &mdash; Fondamenta</h2>
+
+<!-- 01 -->
+<h3>1. Oscillatore sinusoidale in TypeScript</h3>
+<p><b>Argomenti:</b> TypeScript &middot; Web Audio API</p>
+
+<h4>Obiettivi</h4>
+<p>
+Introduzione all'<code>AudioContext</code> e al modello a grafo della Web Audio API.
+Tipi TypeScript per i nodi audio; gestione del ciclo di vita del contesto
+(<code>suspended</code> / <code>running</code>); automazione di parametri con <code>AudioParam</code>.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Crea un <code>AudioContext</code> tipizzato; gestisci il <code>resume()</code> richiesto dal browser al click</li>
+  <li>Configura un <code>OscillatorNode</code> con tipo esplicito (<code>OscillatorType</code>)</li>
+  <li>Collega a <code>GainNode</code> &rarr; <code>destination</code></li>
+  <li>Definisci un'interfaccia <code>OscConfig { frequency: number; type: OscillatorType; gain: number }</code></li>
+  <li>Implementa fade-in/out con <code>linearRampToValueAtTime</code></li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+W3C Audio Working Group. <i>Web Audio API &mdash; W3C Recommendation.</i><br>
+Sezioni rilevanti: Introduction &amp; Modular Routing &middot; AudioContext &middot; AudioNode &middot; AudioParam.<br>
+URL: <a href="https://www.w3.org/TR/webaudio-1.0/">https://www.w3.org/TR/webaudio-1.0/</a>
+</p>
+
+<h4>Output atteso</h4>
+<p>Classe <code>SineOscillator</code> tipizzata con UI minimale (slider frequenza e gain).</p>
+
+<hr>
+
+<!-- 02 -->
+<h3>2. Campionamento e aliasing &mdash; visualizzazione interattiva</h3>
+<p><b>Argomenti:</b> Teoria dei segnali &middot; TypeScript</p>
+
+<h4>Obiettivi</h4>
+<p>
+Teorema di Nyquist&ndash;Shannon: la frequenza di campionamento deve essere almeno il doppio
+della frequenza massima del segnale. Visualizzazione del fenomeno dell'aliasing su canvas.
+Uso di <code>Float32Array</code> e <code>CanvasRenderingContext2D</code> con TypeScript strict.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Genera un segnale sinusoidale continuo con frequenza configurabile</li>
+  <li>Campionalo a diversi <code>sampleRate</code> usando <code>Float32Array</code></li>
+  <li>Disegna su canvas il segnale continuo vs il segnale ricampionato</li>
+  <li>Mostra l'aliasing quando <code>f &gt; sampleRate / 2</code></li>
+  <li>Slider interattivo per frequenza e sample rate</li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+Shannon, C. E. &ldquo;Communication in the Presence of Noise.&rdquo;
+<i>Proceedings of the IRE,</i> vol. 37, no. 1, Jan. 1949, pp. 10&ndash;21.<br>
+DOI: <a href="https://doi.org/10.1109/JRPROC.1949.232969">10.1109/JRPROC.1949.232969</a>
+</p>
+
+<h4>Output atteso</h4>
+<p>Visualizer interattivo che mostra campionamento corretto vs aliasing.</p>
+
+<hr>
+
+<!-- 03 -->
+<h3>3. DFT implementata da zero</h3>
+<p><b>Argomenti:</b> DSP &middot; Algoritmo &middot; TypeScript</p>
+
+<h4>Obiettivi</h4>
+<p>
+La Discrete Fourier Transform (DFT) come strumento di analisi spettrale.
+Numeri complessi in TypeScript, calcolo di magnitudine e fase, comprensione della
+complessità O(N&sup2;) a confronto con l'FFT O(N&thinsp;log&thinsp;N).
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Definisci <code>type Complex = { re: number; im: number }</code> con operazioni ausiliarie</li>
+  <li>Implementa <code>dft(signal: Float32Array): Complex[]</code></li>
+  <li>Ricava magnitudine e fase per ogni bin frequenziale</li>
+  <li>Visualizza lo spettro di magnitudine su canvas</li>
+  <li>Confronta runtime DFT con <code>AnalyserNode</code> nativo su segnali di lunghezza crescente</li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+Cooley, J. W., &amp; Tukey, J. W. &ldquo;An Algorithm for the Machine Calculation of Complex Fourier Series.&rdquo;
+<i>Mathematics of Computation,</i> vol. 19, no. 90, 1965, pp. 297&ndash;301.<br>
+DOI: <a href="https://doi.org/10.1090/S0025-5718-1965-0178586-1">10.1090/S0025-5718-1965-0178586-1</a><br>
+<i>Nota: l'esercizio implementa la DFT na&iuml;ve; il paper di Cooley&ndash;Tukey introduce l'FFT
+come termine di confronto per la complessità computazionale.</i>
+</p>
+
+<h4>Output atteso</h4>
+<p>Libreria DFT tipizzata + spettro visualizzato su segnale sintetico.</p>
+
+<hr>
+
+<h2>Fase II &mdash; Intermedio</h2>
+
+<!-- 04 -->
+<h3>4. FFT live con AnalyserNode e windowing</h3>
+<p><b>Argomenti:</b> Web Audio API &middot; FFT &middot; TypeScript</p>
+
+<h4>Obiettivi</h4>
+<p>
+Uso pratico di <code>AnalyserNode</code> per analisi spettrale in tempo reale.
+Spectral leakage e finestre di Hann/Hamming per ridurlo.
+Pattern generics in TypeScript per wrappare nodi audio in modo riutilizzabile.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Costruisci il grafo: microfono &rarr; <code>AnalyserNode</code> &rarr; destination</li>
+  <li>Leggi <code>getFloatFrequencyData</code> in un loop <code>requestAnimationFrame</code></li>
+  <li>Implementa manualmente una finestra di Hann e applicala al frame prima dell'analisi</li>
+  <li>Disegna lo spettro con asse delle frequenze in scala logaritmica (valori in dB)</li>
+  <li>Crea il tipo generico <code>AudioNodeWrapper&lt;T extends AudioNode&gt;</code></li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+Harris, F. J. &ldquo;On the Use of Windows for Harmonic Analysis with the Discrete Fourier Transform.&rdquo;
+<i>Proceedings of the IEEE,</i> vol. 66, no. 1, Jan. 1978, pp. 51&ndash;83.<br>
+DOI: <a href="https://doi.org/10.1109/PROC.1978.10837">10.1109/PROC.1978.10837</a><br>
+<i>Leggere §I&ndash;III: motivazione del windowing, ENBW, confronto Hann / Hamming / Blackman.</i>
+</p>
+
+<h4>Output atteso</h4>
+<p>Spectrum analyzer live da microfono con windowing selezionabile.</p>
+
+<hr>
+
+<!-- 05 -->
+<h3>5. Filtri IIR biquad &mdash; implementazione da cookbook</h3>
+<p><b>Argomenti:</b> DSP &middot; IIR &middot; AudioWorklet &middot; TypeScript</p>
+
+<h4>Obiettivi</h4>
+<p>
+Filtri IIR del secondo ordine (biquad): equazione alle differenze, coefficienti a/b,
+risposta in frequenza. Implementazione in <code>AudioWorkletProcessor</code>.
+Confronto con <code>BiquadFilterNode</code> nativo. Pattern Builder in TypeScript.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Calcola i coefficienti LPF, HPF, BPF dalle formule del cookbook dato fc e Q</li>
+  <li>Implementa l'equazione alle differenze Direct Form I in un <code>AudioWorkletProcessor</code></li>
+  <li>Calcola la risposta in frequenza H(e<sup>j&omega;</sup>) e plottala (Bode plot magnitudine)</li>
+  <li>Confronta output con <code>BiquadFilterNode</code> nativo sullo stesso segnale di test</li>
+  <li>Crea il Builder: <code>FilterBuilder.lowpass(fc).q(0.7).build(ctx)</code></li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+Bristow-Johnson, R. <i>Cookbook Formulae for Audio EQ Biquad Filter Coefficients.</i>
+W3C Working Group Note, 2021.<br>
+URL: <a href="https://www.w3.org/TR/audio-eq-cookbook/">https://www.w3.org/TR/audio-eq-cookbook/</a><br>
+<i>Il documento originale Audio-EQ-Cookbook.txt è disponibile anche su
+<a href="https://www.musicdsp.org/en/latest/_downloads/3e1dc886e7849251d6747b194d482272/Audio-EQ-Cookbook.txt">musicdsp.org</a>.</i>
+</p>
+
+<h4>Output atteso</h4>
+<p>Filtro biquad in AudioWorklet + Bode plot interattivo (fc e Q variabili).</p>
+
+<hr>
+
+<!-- 06 -->
+<h3>6. Convoluzione e reverb artificiale con impulse response</h3>
+<p><b>Argomenti:</b> DSP &middot; Convoluzione &middot; Web Audio API</p>
+
+<h4>Obiettivi</h4>
+<p>
+La convoluzione come modello dei sistemi LTI; l'impulse response come firma acustica di un ambiente.
+Confronto tra convoluzione nel tempo O(N&sup2;) e overlap-add FFT-based.
+Decoratori TypeScript per memoizing dei buffer processati.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Implementa la convoluzione lineare brute-force su <code>Float32Array</code></li>
+  <li>Carica un IR reale (es. chiesa) come <code>AudioBuffer</code></li>
+  <li>Applica la convoluzione tramite <code>ConvolverNode</code></li>
+  <li>Implementa overlap-add FFT-based e confronta la complessità computazionale</li>
+  <li>Decora la classe con <code>@memoize</code> per caching degli IR già processati</li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+Moorer, J. A. &ldquo;About This Reverberation Business.&rdquo;
+<i>Computer Music Journal,</i> vol. 3, no. 2, Jun. 1979, pp. 13&ndash;28.<br>
+DOI: <a href="https://doi.org/10.2307/3680280">10.2307/3680280</a> &mdash;
+PDF: <a href="http://www.music.mcgill.ca/~gary/courses/papers/Moorer-Reverb-CMJ-1979.pdf">McGill mirror</a>
+</p>
+
+<h4>Output atteso</h4>
+<p>Reverb convolutivo con IR caricabile + confronto algoritmi.</p>
+
+<hr>
+
+<h2>Fase III &mdash; Avanzato</h2>
+
+<!-- 07 -->
+<h3>7. Phase vocoder &mdash; pitch shifting nel dominio della frequenza</h3>
+<p><b>Argomenti:</b> STFT &middot; Phase Vocoder &middot; AudioWorklet &middot; TypeScript</p>
+
+<h4>Obiettivi</h4>
+<p>
+Short-Time Fourier Transform (STFT): analisi della fase frame-per-frame,
+accumulazione di fase per stimare le frequenze istantanee, rimappatura delle fasi per
+il pitch shifting. ISTFT con overlap-add per la risintesi. Gestione avanzata di
+<code>ArrayBuffer</code> e <code>SharedArrayBuffer</code> in TypeScript.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Implementa STFT: segmentazione con hop size, finestra di Hann, FFT per frame</li>
+  <li>Estrai magnitudine e fase per ogni bin frequenziale</li>
+  <li>Calcola la derivata di fase tra frame consecutivi; stima la frequenza istantanea</li>
+  <li>Rimappa le fasi per un pitch shift di &plusmn;N semitoni</li>
+  <li>ISTFT con overlap-add per risintetizzare il segnale modificato</li>
+  <li>Integra tutto in un <code>AudioWorkletProcessor</code> per elaborazione real-time</li>
+</ol>
+
+<h4>Riferimenti</h4>
+<p>
+Laroche, J., &amp; Dolson, M. &ldquo;Improved Phase Vocoder Time-Scale Modification of Audio.&rdquo;
+<i>IEEE Transactions on Speech and Audio Processing,</i> vol. 7, no. 3, May 1999, pp. 323&ndash;332.<br>
+DOI: <a href="https://doi.org/10.1109/89.759041">10.1109/89.759041</a>
+</p>
+<p>
+Flanagan, J. L., &amp; Golden, R. M. &ldquo;Phase Vocoder.&rdquo;
+<i>Bell System Technical Journal,</i> vol. 45, Nov. 1966, pp. 1493&ndash;1509.
+<i>(Riferimento storico originale.)</i>
+</p>
+
+<h4>Output atteso</h4>
+<p>Pitch shifter real-time su input microfono, controllo in semitoni.</p>
+
+<hr>
+
+<!-- 08 -->
+<h3>8. Onset detection e stima del BPM</h3>
+<p><b>Argomenti:</b> MIR &middot; Spectral Flux &middot; TypeScript</p>
+
+<h4>Obiettivi</h4>
+<p>
+Spectral flux come onset detection function; peak picking con soglia adattiva;
+autocorrelazione degli intervalli tra onset per stimare il BPM.
+Pipeline tipizzata con mapped types e conditional types in TypeScript.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Calcola lo spectral flux frame-per-frame dallo spettro FFT</li>
+  <li>Applica half-wave rectification e smoothing gaussiano</li>
+  <li>Peak picking: soglia adattiva locale + distanza minima tra picchi</li>
+  <li>Stima il BPM tramite autocorrelazione degli intervalli tra onset</li>
+  <li>Visualizza onset markers e BPM stimato in tempo reale</li>
+  <li>Modella la pipeline: <code>type Stage&lt;In, Out&gt; = (x: In) =&gt; Out</code></li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+Dixon, S. &ldquo;Onset Detection Revisited.&rdquo;
+<i>Proc. 9th International Conference on Digital Audio Effects (DAFx-06),</i>
+Montreal, Canada, Sept. 2006, pp. 133&ndash;137.<br>
+PDF: <a href="https://www.dafx.de/paper-archive/2006/papers/p_133.pdf">dafx.de/paper-archive/2006/papers/p_133.pdf</a>
+</p>
+
+<h4>Output atteso</h4>
+<p>Beat tracker real-time con visualizzazione onset e display BPM.</p>
+
+<hr>
+
+<!-- 09 -->
+<h3>9. Sintesi FM &mdash; algoritmo di Chowning</h3>
+<p><b>Argomenti:</b> FM Synthesis &middot; DSP &middot; Web Audio API &middot; TypeScript</p>
+
+<h4>Obiettivi</h4>
+<p>
+Frequency Modulation synthesis: rapporto carrier/modulator (C:M), indice di modulazione,
+sideband e funzioni di Bessel per lo spettro risultante.
+Struttura a operatori multipli con le topologie del DX7.
+Discriminated unions in TypeScript per modellare le topologie.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Implementa un singolo operatore FM (carrier modulato da modulator) con ratio e indice</li>
+  <li>Costruisci una struttura ad albero di operatori (4-op)</li>
+  <li>Modella le 6 topologie del Yamaha DX7 come discriminated union TypeScript</li>
+  <li>Aggiungi envelope ADSR sull'indice di modulazione tramite <code>AudioParam</code></li>
+  <li>Visualizza lo spettro risultante al variare dell'indice di modulazione</li>
+</ol>
+
+<h4>Riferimento</h4>
+<p>
+Chowning, J. M. &ldquo;The Synthesis of Complex Audio Spectra by Means of Frequency Modulation.&rdquo;
+<i>Journal of the Audio Engineering Society,</i> vol. 21, no. 7, Sept. 1973, pp. 526&ndash;534.<br>
+AES E-Library: <a href="https://www.aes.org/e-lib/browse.cfm?elib=1954">aes.org/e-lib/browse.cfm?elib=1954</a><br>
+PDF (ristampa 1977): <a href="https://web.eecs.umich.edu/~fessler/course/100/misc/chowning-73-tso.pdf">umich.edu mirror</a>
+</p>
+
+<h4>Output atteso</h4>
+<p>FM synth a 4 operatori, polifonico, con editor topologie e spettro live.</p>
+
+<hr>
+
+<!-- 10 -->
+<h3>10. Source separation &mdash; NMF spettrale su audio mono</h3>
+<p><b>Argomenti:</b> NMF &middot; HPSS &middot; TypeScript avanzato</p>
+
+<h4>Obiettivi</h4>
+<p>
+Non-negative Matrix Factorization (NMF) applicata allo spettrogramma di potenza per separare
+componenti armoniche e percussive (HPSS). Update rules moltiplicative con divergenza KL.
+TypeScript avanzato: tipi per matrici con dimensioni a livello di tipo, readonly tuples.
+</p>
+
+<h4>Step</h4>
+<ol>
+  <li>Calcola lo spettrogramma di potenza (|STFT|&sup2;) di un file audio caricato</li>
+  <li>Implementa NMF: update rules moltiplicative (KL-divergence), K=2 componenti</li>
+  <li>Interpreta W come dizionario spettrale, H come attivazione temporale</li>
+  <li>Risintetizza le componenti applicando le maschere W&middot;H allo spettrogramma</li>
+  <li>ISTFT &rarr; esporta le tracce separate come <code>AudioBuffer</code> scaricabile</li>
+  <li>Modella le matrici: <code>type Matrix&lt;R extends number, C extends number&gt;</code></li>
+</ol>
+
+<h4>Riferimenti</h4>
+<p>
+Lee, D. D., &amp; Seung, H. S. &ldquo;Learning the Parts of Objects by Non-negative Matrix Factorization.&rdquo;
+<i>Nature,</i> vol. 401, no. 6755, Oct. 1999, pp. 788&ndash;791.<br>
+DOI: <a href="https://doi.org/10.1038/44565">10.1038/44565</a>
+<i>(Riferimento fondazionale per l'algoritmo NMF e le update rules moltiplicative.)</i>
+</p>
+<p>
+Virtanen, T. &ldquo;Monaural Sound Source Separation by Nonnegative Matrix Factorization
+with Temporal Continuity and Sparseness Criteria.&rdquo;
+<i>IEEE Transactions on Audio, Speech, and Language Processing,</i>
+vol. 15, no. 3, Mar. 2007, pp. 1066&ndash;1074.<br>
+DOI: <a href="https://doi.org/10.1109/TASL.2006.885253">10.1109/TASL.2006.885253</a>
+<i>(Applicazione della NMF alla separazione di sorgenti audio.)</i>
+</p>
+
+<h4>Output atteso</h4>
+<p>Separatore browser-based: carica un file .wav, scarica le due tracce separate.</p>
+
+<hr>
+
+<h2>Stack tecnico e concetti per fase</h2>
+
+<table border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Esercizio</th>
+      <th>TS pattern</th>
+      <th>Web Audio</th>
+      <th>DSP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>01</td>
+      <td>Oscillatore sinusoidale</td>
+      <td>Interfacce, tipi base</td>
+      <td>AudioContext, OscillatorNode, GainNode, AudioParam</td>
+      <td>&mdash;</td>
+    </tr>
+    <tr>
+      <td>02</td>
+      <td>Campionamento e aliasing</td>
+      <td>Float32Array, strict mode</td>
+      <td>&mdash;</td>
+      <td>Nyquist&ndash;Shannon</td>
+    </tr>
+    <tr>
+      <td>03</td>
+      <td>DFT da zero</td>
+      <td>Tipi custom (Complex)</td>
+      <td>AnalyserNode (confronto)</td>
+      <td>DFT, numeri complessi</td>
+    </tr>
+    <tr>
+      <td>04</td>
+      <td>FFT live + windowing</td>
+      <td>Generics</td>
+      <td>AnalyserNode, MediaStream</td>
+      <td>FFT, spectral leakage, finestre</td>
+    </tr>
+    <tr>
+      <td>05</td>
+      <td>Filtri IIR biquad</td>
+      <td>Builder pattern</td>
+      <td>AudioWorkletProcessor, BiquadFilterNode</td>
+      <td>IIR, risposta in frequenza</td>
+    </tr>
+    <tr>
+      <td>06</td>
+      <td>Convoluzione e reverb</td>
+      <td>Decoratori (@memoize)</td>
+      <td>ConvolverNode</td>
+      <td>Convoluzione, LTI, overlap-add</td>
+    </tr>
+    <tr>
+      <td>07</td>
+      <td>Phase vocoder</td>
+      <td>SharedArrayBuffer, TypedArrays</td>
+      <td>AudioWorkletProcessor</td>
+      <td>STFT, derivata di fase, ISTFT</td>
+    </tr>
+    <tr>
+      <td>08</td>
+      <td>Onset detection / BPM</td>
+      <td>Mapped types, conditional types</td>
+      <td>AnalyserNode</td>
+      <td>Spectral flux, peak picking, autocorrelazione</td>
+    </tr>
+    <tr>
+      <td>09</td>
+      <td>Sintesi FM</td>
+      <td>Discriminated unions</td>
+      <td>OscillatorNode, AudioParam automation</td>
+      <td>FM, Bessel, sideband</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>NMF source separation</td>
+      <td>Template literal types, type-level math</td>
+      <td>AudioBuffer, OfflineAudioContext</td>
+      <td>NMF, spettrogramma, HPSS</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

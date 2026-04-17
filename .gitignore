@@ -1,33 +1,38 @@
-.DS_Store
-.thumbs.db
-node_modules
+# Dependencies
+node_modules/
 
-# Quasar core related directories
-.quasar
-/dist
-/quasar.config.*.temporary.compiled*
+# Build output
+dist/
+dist-ssr/
+coverage/
+*.tsbuildinfo
 
-# Cordova related directories and files
-/src-cordova/node_modules
-/src-cordova/platforms
-/src-cordova/plugins
-/src-cordova/www
+# Environment and local config
+.env
+.env.*
+!.env.example
+*.local
 
-# Capacitor related directories and files
-/src-capacitor/www
-/src-capacitor/node_modules
+# Cache
+.vite/
 
-# Log files
+# Logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 # Editor directories and files
-.idea
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-
-# local .env files
-.env.local*
+*.sw?

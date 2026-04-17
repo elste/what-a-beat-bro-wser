@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>07 - Phase vocoder pitch</title>
+</head>
+<body>
+  <h1>07 - Phase vocoder pitch</h1>
+  <pre>Ambito: STFT, phase vocoder, AudioWorklet, TypeScript.
+
+Obiettivi
+Analizzare fase e magnitudine frame per frame e risintetizzare il segnale con variazione di intonazione.
+
+Step
+1. Implementare STFT con hop size, finestra di Hann e FFT.
+2. Estrarre magnitudine e fase per ciascun bin.
+3. Stimare la frequenza istantanea dalla differenza di fase tra frame.
+4. Rimappare le fasi per un pitch shift di piu o meno N semitoni.
+5. Applicare ISTFT con overlap-add.
+6. Integrare tutto in un AudioWorkletProcessor.
+
+Riferimento: Laroche e Dolson, 1999, DOI 10.1109/89.759041.
+Deliverable: pitch shifter real-time su input microfono.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>

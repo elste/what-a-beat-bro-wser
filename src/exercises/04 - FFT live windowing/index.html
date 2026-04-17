@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04 - FFT live windowing</title>
+</head>
+<body>
+  <h1>04 - FFT live windowing</h1>
+  <pre>Ambito: Web Audio API, FFT, TypeScript.
+
+Obiettivi
+Uso pratico di AnalyserNode per analisi spettrale in tempo reale e studio del windowing.
+
+Step
+1. Costruire il grafo audio con microfono e AnalyserNode.
+2. Leggere getFloatFrequencyData in un loop di animazione.
+3. Applicare una finestra di Hann al frame analizzato.
+4. Disegnare lo spettro con asse logaritmico.
+5. Definire il tipo generico AudioNodeWrapper<T extends AudioNode>.
+
+Riferimento: Harris, 1978, DOI 10.1109/PROC.1978.10837.
+Deliverable: spectrum analyzer live da microfono con windowing selezionabile.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>

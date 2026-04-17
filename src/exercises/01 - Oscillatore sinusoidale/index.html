@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 - Oscillatore sinusoidale</title>
+</head>
+
+<body>
+    <h1>01 - Oscillatore sinusoidale</h1>
+    <pre>Ambito: TypeScript, Web Audio API.
+
+Obiettivi
+Introduzione ad AudioContext e al modello a grafo della Web Audio API. Uso di tipi TypeScript per i nodi audio, gestione del ciclo di vita del contesto e automazione dei parametri con AudioParam.
+
+Step
+1. Creare un AudioContext tipizzato e gestire resume() al click.
+2. Configurare un OscillatorNode con tipo esplicito.
+3. Collegare il nodo a GainNode e poi alla destinazione.
+4. Definire l'interfaccia OscConfig.
+5. Implementare fade in e fade out con linearRampToValueAtTime.
+
+Riferimento: W3C Audio Working Group, Web Audio API, https://www.w3.org/TR/webaudio-1.0/.
+Deliverable: classe SineOscillator tipizzata con una piccola UI.</pre>
+    <p><button id="run">Esegui</button></p>
+    <script type="module">
+        import { execute } from "./main.ts";
+
+        document.getElementById("run")?.addEventListener("click", () => {
+            void execute();
+        });
+    </script>
+</body>
+
+</html>

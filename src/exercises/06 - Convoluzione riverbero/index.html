@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06 - Convoluzione riverbero</title>
+</head>
+<body>
+  <h1>06 - Convoluzione riverbero</h1>
+  <pre>Ambito: DSP, convoluzione, Web Audio API.
+
+Obiettivi
+Comprendere la convoluzione come modello di sistemi LTI e usare impulse response reali per costruire un riverbero.
+
+Step
+1. Implementare la convoluzione lineare su Float32Array.
+2. Caricare una impulse response reale come AudioBuffer.
+3. Applicare la convoluzione tramite ConvolverNode.
+4. Confrontare la versione nel tempo con overlap-add basato su FFT.
+5. Usare memoization per il caching dei buffer gia processati.
+
+Riferimento: Moorer, 1979, DOI 10.2307/3680280.
+Deliverable: riverbero convolutivo con caricamento di IR.</pre>
+  <p><button id="run">Esegui</button></p>
+  <script type="module">
+    import { execute } from "./main.ts";
+
+    document.getElementById("run")?.addEventListener("click", () => {
+      void execute();
+    });
+  </script>
+</body>
+</html>
