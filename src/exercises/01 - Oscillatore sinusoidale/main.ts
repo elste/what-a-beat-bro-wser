@@ -1,10 +1,10 @@
 import type { OscConfig } from "./OscConfig";
 import { SineOscillator } from "./SineOscillator";
 import { error, log, setLogEnabled } from "../../logger";
+import { getAudioContext, ensureAudioContextRunning } from "../common";
 
 setLogEnabled(true);
 
-let audioCtx: AudioContext | null = null;
 let sineOsc: SineOscillator | null = null;
 const sineConf: OscConfig = {
   type: "sine",
@@ -12,26 +12,11 @@ const sineConf: OscConfig = {
   gain: 0.5,
 };
 
-
-function getAudioContext(): AudioContext {
-  if (!audioCtx) {
-    audioCtx = new AudioContext();
-  }
-  return audioCtx;
-}
-
-async function ensureAudioContextRunning(ctx: AudioContext): Promise<void> {
-  if (ctx.state === "suspended") {
-    log("AudioContext is suspended, resuming...");
-    await ctx.resume();
-  }
-}
-
 export async function init(): Promise<void> {
   log("Initializing SineOscillator exercise");
   const ctx = getAudioContext();
   await ensureAudioContextRunning(ctx);
-log("AudioContext is running", ctx.state);
+  log("AudioContext is running", ctx.state);
 
 
   sineOsc = new SineOscillator(ctx, sineConf);
