@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>02 - Campionamento aliasing</title>
 </head>
+
 <body>
   <h1>02 - Campionamento aliasing</h1>
   <pre>Ambito: Teoria dei segnali, TypeScript.
@@ -25,13 +27,27 @@ Riferimento: Shannon, C. E. “Communication in the Presence of Noise.”
 Proceedings of the IRE, vol. 37, no. 1, Jan. 1949, pp. 10–21.
 DOI: https://doi.org/10.1109/JRPROC.1949.232969
 Deliverable: visualizer interattivo che mostra campionamento corretto vs aliasing.</pre>
-  <p><button id="run">Esegui</button></p>
-  <script type="module">
-    import { execute } from "./main.ts";
 
-    document.getElementById("run")?.addEventListener("click", () => {
-      void execute();
-    });
-  </script>
+
+
+  <p>
+    <label for="samplingFreq1">Sampling freq 1:</label>
+    <input type="range" id="samplingFreq1" min="100" max="10000" value="10000">
+    <output id="samplingFreq1Value" for="samplingFreq1">10000</output>
+  </p>
+
+  <p>
+    <label for="samplingFreq2">Sampling freq 2:</label>
+    <input type="range" id="samplingFreq2" min="100" max="10000" value="500">
+    <output id="samplingFreq2Value" for="samplingFreq2">500</output>
+  </p>
+
+  <p><button id="run">Esegui</button></p>
+
+  <canvas id="canvas" width="1600" height="400" style="border:1px solid #000;"></canvas>
+  <br />
+  <canvas id="canvas2" width="1600" height="400" style="border:1px solid #000;"></canvas>
+  <script type="module" src="./main.ts"></script>
 </body>
+
 </html>
