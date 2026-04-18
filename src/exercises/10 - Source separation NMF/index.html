@@ -10,18 +10,28 @@
   <pre>Ambito: NMF, HPSS, TypeScript avanzato.
 
 Obiettivi
-Applicare la non-negative matrix factorization allo spettrogramma di potenza per separare componenti armoniche e percussive.
+Non-negative Matrix Factorization (NMF) applicata allo spettrogramma di potenza per separare
+componenti armoniche e percussive (HPSS). Update rules moltiplicative con divergenza KL.
+TypeScript avanzato: tipi per matrici con dimensioni a livello di tipo, readonly tuples.
 
 Step
-1. Calcolare lo spettrogramma di potenza di un file audio.
-2. Implementare NMF con update rules moltiplicative.
-3. Interpretare W come dizionario spettrale e H come attivazione temporale.
-4. Risintetizzare le componenti separate mediante maschere applicate allo spettrogramma.
-5. Esportare le tracce separate come AudioBuffer.
-6. Modellare le matrici con tipi TypeScript.
+1. Calcola lo spettrogramma di potenza (|STFT|²) di un file audio caricato.
+2. Implementa NMF: update rules moltiplicative (KL-divergence), K=2 componenti.
+3. Interpreta W come dizionario spettrale, H come attivazione temporale.
+4. Risintetizza le componenti applicando le maschere W·H allo spettrogramma.
+5. ISTFT → esporta le tracce separate come <code>AudioBuffer</code> scaricabile.
+6. Modella le matrici: <code>type Matrix&lt;R extends number, C extends number&gt;</code>.
 
-Riferimento: Lee e Seung, 1999, DOI 10.1038/44565; Virtanen, 2007, DOI 10.1109/TASL.2006.885253.
-Deliverable: separatore browser-based per file WAV mono.</pre>
+Riferimenti: Lee, D. D., & Seung, H. S. “Learning the Parts of Objects by Non-negative Matrix Factorization.”
+Nature, vol. 401, no. 6755, Oct. 1999, pp. 788–791.
+DOI: https://doi.org/10.1038/44565
+(Presente come riferimento fondazionale per l'algoritmo NMF.)
+
+Virtanen, T. “Monaural Sound Source Separation by Nonnegative Matrix Factorization with Temporal Continuity and Sparseness Criteria.”
+IEEE Transactions on Audio, Speech, and Language Processing, vol. 15, no. 3, Mar. 2007, pp. 1066–1074.
+DOI: https://doi.org/10.1109/TASL.2006.885253
+(Applicazione della NMF alla separazione di sorgenti audio.)
+Deliverable: separatore browser-based: carica un file .wav, scarica le due tracce separate.</pre>
   <p><button id="run">Esegui</button></p>
   <script type="module">
     import { execute } from "./main.ts";

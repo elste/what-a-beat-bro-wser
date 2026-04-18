@@ -10,17 +10,21 @@
   <pre>Ambito: Teoria dei segnali, TypeScript.
 
 Obiettivi
-Studio del teorema di Nyquist-Shannon e visualizzazione dell'aliasing su canvas con array tipizzati.
+Teorema di Nyquist–Shannon: la frequenza di campionamento deve essere almeno il doppio
+della frequenza massima del segnale. Visualizzazione del fenomeno dell'aliasing su canvas.
+Uso di <code>Float32Array</code> e <code>CanvasRenderingContext2D</code> con TypeScript strict.
 
 Step
-1. Generare un segnale sinusoidale continuo con frequenza configurabile.
-2. Campionarlo a diversi valori di sampleRate.
-3. Disegnare il segnale continuo e quello ricampionato.
-4. Mostrare l'aliasing quando f > sampleRate / 2.
-5. Aggiungere controlli interattivi per frequenza e sample rate.
+1. Genera un segnale sinusoidale continuo con frequenza configurabile.
+2. Campionalo a diversi <code>sampleRate</code> usando <code>Float32Array</code>.
+3. Disegna su canvas il segnale continuo vs il segnale ricampionato.
+4. Mostra l'aliasing quando <code>f > sampleRate / 2</code>.
+5. Slider interattivo per frequenza e sample rate.
 
-Riferimento: Shannon, 1949, DOI 10.1109/JRPROC.1949.232969.
-Deliverable: visualizzatore interattivo del campionamento corretto e dell'aliasing.</pre>
+Riferimento: Shannon, C. E. “Communication in the Presence of Noise.”
+Proceedings of the IRE, vol. 37, no. 1, Jan. 1949, pp. 10–21.
+DOI: https://doi.org/10.1109/JRPROC.1949.232969
+Deliverable: visualizer interattivo che mostra campionamento corretto vs aliasing.</pre>
   <p><button id="run">Esegui</button></p>
   <script type="module">
     import { execute } from "./main.ts";

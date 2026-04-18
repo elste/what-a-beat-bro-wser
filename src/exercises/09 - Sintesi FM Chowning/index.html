@@ -10,17 +10,23 @@
   <pre>Ambito: FM synthesis, DSP, Web Audio API, TypeScript.
 
 Obiettivi
-Studiare la sintesi FM, le sideband e la modellazione delle topologie di operatori.
+Frequency Modulation synthesis: rapporto carrier/modulator (C:M), indice di modulazione,
+sideband e funzioni di Bessel per lo spettro risultante.
+Struttura a operatori multipli con le topologie del DX7.
+Discriminated unions in TypeScript per modellare le topologie.
 
 Step
-1. Implementare un singolo operatore FM con ratio e indice.
-2. Costruire una struttura ad albero di operatori a quattro elementi.
-3. Modellare le topologie come discriminated union in TypeScript.
-4. Aggiungere envelope ADSR all'indice di modulazione.
-5. Visualizzare lo spettro risultante.
+1. Implementa un singolo operatore FM (carrier modulato da modulator) con ratio e indice.
+2. Costruisci una struttura ad albero di operatori (4-op).
+3. Modella le 6 topologie del Yamaha DX7 come discriminated union TypeScript.
+4. Aggiungi envelope ADSR sull'indice di modulazione tramite <code>AudioParam</code>.
+5. Visualizza lo spettro risultante al variare dell'indice di modulazione.
 
-Riferimento: Chowning, 1973, AES E-Library, https://www.aes.org/e-lib/browse.cfm?elib=1954.
-Deliverable: sintetizzatore FM a quattro operatori con editor di topologie.</pre>
+Riferimento: Chowning, J. M. “The Synthesis of Complex Audio Spectra by Means of Frequency Modulation.”
+Journal of the Audio Engineering Society, vol. 21, no. 7, Sept. 1973, pp. 526–534.
+AES E-Library: https://www.aes.org/e-lib/browse.cfm?elib=1954
+PDF (ristampa 1977): https://web.eecs.umich.edu/~fessler/course/100/misc/chowning-73-tso.pdf
+Deliverable: FM synth a 4 operatori, polifonico, con editor topologie e spettro live.</pre>
   <p><button id="run">Esegui</button></p>
   <script type="module">
     import { execute } from "./main.ts";

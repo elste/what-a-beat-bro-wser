@@ -10,17 +10,23 @@
   <pre>Ambito: DSP, algoritmo, TypeScript.
 
 Obiettivi
-Comprendere la Discrete Fourier Transform come strumento di analisi spettrale e confrontarne la complessita con l'FFT.
+La Discrete Fourier Transform (DFT) come strumento di analisi spettrale.
+Numeri complessi in TypeScript, calcolo di magnitudine e fase, comprensione della
+complessità O(N²) a confronto con l'FFT O(N log N).
 
 Step
-1. Definire il tipo Complex con operazioni ausiliarie.
-2. Implementare dft(signal: Float32Array): Complex[].
-3. Ricavare magnitudine e fase per ogni bin frequenziale.
-4. Visualizzare lo spettro di magnitudine su canvas.
-5. Confrontare il runtime della DFT con strumenti nativi.
+1. Definisci <code>type Complex = { re: number; im: number }</code> con operazioni ausiliarie.
+2. Implementa <code>dft(signal: Float32Array): Complex[]</code>.
+3. Ricava magnitudine e fase per ogni bin frequenziale.
+4. Visualizza lo spettro di magnitudine su canvas.
+5. Confronta runtime DFT con <code>AnalyserNode</code> nativo su segnali di lunghezza crescente.
 
-Riferimento: Cooley e Tukey, 1965, DOI 10.1090/S0025-5718-1965-0178586-1.
-Deliverable: libreria DFT tipizzata e spettro visualizzato su segnale sintetico.</pre>
+Riferimento: Cooley, J. W., & Tukey, J. W. “An Algorithm for the Machine Calculation of Complex Fourier Series.”
+Mathematics of Computation, vol. 19, no. 90, 1965, pp. 297–301.
+DOI: https://doi.org/10.1090/S0025-5718-1965-0178586-1
+Nota: l'esercizio implementa la DFT naïve; il paper di Cooley–Tukey introduce l'FFT
+come termine di confronto per la complessità computazionale.
+Deliverable: libreria DFT tipizzata + spettro visualizzato su segnale sintetico.</pre>
   <p><button id="run">Esegui</button></p>
   <script type="module">
     import { execute } from "./main.ts";

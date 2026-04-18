@@ -10,18 +10,23 @@
   <pre>Ambito: MIR, spectral flux, TypeScript.
 
 Obiettivi
-Costruire una pipeline per onset detection, peak picking e stima del BPM in tempo reale.
+Spectral flux come onset detection function; peak picking con soglia adattiva;
+autocorrelazione degli intervalli tra onset per stimare il BPM.
+Pipeline tipizzata con mapped types e conditional types in TypeScript.
 
 Step
-1. Calcolare lo spectral flux frame per frame.
-2. Applicare half-wave rectification e smoothing gaussiano.
-3. Eseguire peak picking con soglia adattiva.
-4. Stimare il BPM tramite autocorrelazione.
-5. Visualizzare onset markers e BPM stimato.
-6. Modellare la pipeline come funzione tipizzata.
+1. Calcola lo spectral flux frame-per-frame dallo spettro FFT.
+2. Applica half-wave rectification e smoothing gaussiano.
+3. Peak picking: soglia adattiva locale + distanza minima tra picchi.
+4. Stima il BPM tramite autocorrelazione degli intervalli tra onset.
+5. Visualizza onset markers e BPM stimato in tempo reale.
+6. Modella la pipeline: <code>type Stage&lt;In, Out&gt; = (x: In) => Out</code>.
 
-Riferimento: Dixon, 2006, DAFx 2006, https://www.dafx.de/paper-archive/2006/papers/p_133.pdf.
-Deliverable: beat tracker real-time con display BPM.</pre>
+Riferimento: Dixon, S. “Onset Detection Revisited.”
+Proc. 9th International Conference on Digital Audio Effects (DAFx-06),
+Montreal, Canada, Sept. 2006, pp. 133–137.
+PDF: https://www.dafx.de/paper-archive/2006/papers/p_133.pdf
+Deliverable: Beat tracker real-time con visualizzazione onset e display BPM.</pre>
   <p><button id="run">Esegui</button></p>
   <script type="module">
     import { execute } from "./main.ts";

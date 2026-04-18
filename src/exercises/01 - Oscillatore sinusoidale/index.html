@@ -12,23 +12,40 @@
     <pre>Ambito: TypeScript, Web Audio API.
 
 Obiettivi
-Introduzione ad AudioContext e al modello a grafo della Web Audio API. Uso di tipi TypeScript per i nodi audio, gestione del ciclo di vita del contesto e automazione dei parametri con AudioParam.
+Introduzione all'AudioContext e al modello a grafo della Web Audio API.
+Tipi TypeScript per i nodi audio; gestione del ciclo di vita del contesto
+(<code>suspended</code> / <code>running</code>); automazione di parametri con <code>AudioParam</code>.
 
 Step
-1. Creare un AudioContext tipizzato e gestire resume() al click.
-2. Configurare un OscillatorNode con tipo esplicito.
-3. Collegare il nodo a GainNode e poi alla destinazione.
-4. Definire l'interfaccia OscConfig.
-5. Implementare fade in e fade out con linearRampToValueAtTime.
+1. Crea un <code>AudioContext</code> tipizzato; gestisci il <code>resume()</code> richiesto dal browser al click.
+2. Configura un <code>OscillatorNode</code> con tipo esplicito (<code>OscillatorType</code>).
+3. Collega a <code>GainNode</code> → <code>destination</code>.
+4. Definisci un'interfaccia <code>OscConfig { frequency: number; type: OscillatorType; gain: number }</code>.
+5. Implementa fade-in/out con <code>linearRampToValueAtTime</code>.
 
-Riferimento: W3C Audio Working Group, Web Audio API, https://www.w3.org/TR/webaudio-1.0/.
-Deliverable: classe SineOscillator tipizzata con una piccola UI.</pre>
-    <p><button id="run">Esegui</button></p>
+Riferimento: W3C Audio Working Group, Web Audio API — W3C Recommendation.
+Sezioni rilevanti: Introduction & Modular Routing · AudioContext · AudioNode · AudioParam.
+URL: https://www.w3.org/TR/webaudio-1.0/
+Deliverable: classe <code>SineOscillator</code> tipizzata con UI minimale (slider frequenza e gain).</pre>
+    <p><button id="play">Play</button></p>
+    <p><button id="stop">Stop</button></p>
+    <p><label for="frequency">Frequency</label><br />
+    <input type="range" id="frequency" min="20" max="2000" value="440"></p>
+    <p><label for="gain">Gain</label><br />
+    <input type="range" id="gain" min="0" max="1" step="0.01" value="0.5"></p>
     <script type="module">
-        import { execute } from "./main.ts";
+        import { play, stop, setFrequency, setGain } from "./main.ts";
 
-        document.getElementById("run")?.addEventListener("click", () => {
-            void execute();
+
+        document.getElementById("play")?.addEventListener("click", play);
+        document.getElementById("stop")?.addEventListener("click", stop);
+        document.getElementById("frequency")?.addEventListener("input", (e) => {
+            const target = e.target;
+            setFrequency(parseFloat(target.value));
+        });
+        document.getElementById("gain")?.addEventListener("input", (e) => {
+            const target = e.target;
+            setGain(parseFloat(target.value));
         });
     </script>
 </body>

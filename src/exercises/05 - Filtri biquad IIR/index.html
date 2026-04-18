@@ -10,17 +10,23 @@
   <pre>Ambito: DSP, IIR, AudioWorklet, TypeScript.
 
 Obiettivi
-Studiare i filtri biquad del secondo ordine e implementarli in AudioWorkletProcessor.
+Filtri IIR del secondo ordine (biquad): equazione alle differenze, coefficienti a/b,
+risposta in frequenza. Implementazione in <code>AudioWorkletProcessor</code>.
+Confronto con <code>BiquadFilterNode</code> nativo. Pattern Builder in TypeScript.
 
 Step
-1. Calcolare i coefficienti LPF, HPF e BPF a partire da fc e Q.
-2. Implementare l'equazione alle differenze in Direct Form I.
-3. Calcolare la risposta in frequenza e produrre un Bode plot.
-4. Confrontare l'output con BiquadFilterNode.
-5. Creare un builder per il filtro.
+1. Calcola i coefficienti LPF, HPF, BPF dalle formule del cookbook dato fc e Q.
+2. Implementa l'equazione alle differenze Direct Form I in un <code>AudioWorkletProcessor</code>.
+3. Calcola la risposta in frequenza H(e<sup>jω</sup>) e plottala (Bode plot magnitudine).
+4. Confronta output con <code>BiquadFilterNode</code> nativo sullo stesso segnale di test.
+5. Crea il Builder: <code>FilterBuilder.lowpass(fc).q(0.7).build(ctx)</code>.
 
-Riferimento: Bristow-Johnson, audio EQ cookbook, https://www.w3.org/TR/audio-eq-cookbook/.
-Deliverable: filtro biquad in AudioWorklet con grafico interattivo.</pre>
+Riferimento: Bristow-Johnson, R. Cookbook Formulae for Audio EQ Biquad Filter Coefficients.
+W3C Working Group Note, 2021.
+URL: https://www.w3.org/TR/audio-eq-cookbook/
+Il documento originale Audio-EQ-Cookbook.txt è disponibile anche su
+https://www.musicdsp.org/en/latest/_downloads/3e1dc886e7849251d6747b194d482272/Audio-EQ-Cookbook.txt.
+Deliverable: filtro biquad in AudioWorklet + Bode plot interattivo (fc e Q variabili).</pre>
   <p><button id="run">Esegui</button></p>
   <script type="module">
     import { execute } from "./main.ts";

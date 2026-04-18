@@ -10,18 +10,27 @@
   <pre>Ambito: STFT, phase vocoder, AudioWorklet, TypeScript.
 
 Obiettivi
-Analizzare fase e magnitudine frame per frame e risintetizzare il segnale con variazione di intonazione.
+Short-Time Fourier Transform (STFT): analisi della fase frame-per-frame,
+accumulazione di fase per stimare le frequenze istantanee, rimappatura delle fasi per
+il pitch shifting. ISTFT con overlap-add per la risintesi. Gestione avanzata di
+<code>ArrayBuffer</code> e <code>SharedArrayBuffer</code> in TypeScript.
 
 Step
-1. Implementare STFT con hop size, finestra di Hann e FFT.
-2. Estrarre magnitudine e fase per ciascun bin.
-3. Stimare la frequenza istantanea dalla differenza di fase tra frame.
-4. Rimappare le fasi per un pitch shift di piu o meno N semitoni.
-5. Applicare ISTFT con overlap-add.
-6. Integrare tutto in un AudioWorkletProcessor.
+1. Implementa STFT: segmentazione con hop size, finestra di Hann, FFT per frame.
+2. Estrai magnitudine e fase per ogni bin frequenziale.
+3. Calcola la derivata di fase tra frame consecutivi; stima la frequenza istantanea.
+4. Rimappa le fasi per un pitch shift di ±N semitoni.
+5. ISTFT con overlap-add per risintetizzare il segnale modificato.
+6. Integra tutto in un <code>AudioWorkletProcessor</code> per elaborazione real-time.
 
-Riferimento: Laroche e Dolson, 1999, DOI 10.1109/89.759041.
-Deliverable: pitch shifter real-time su input microfono.</pre>
+Riferimenti: Laroche, J., & Dolson, M. “Improved Phase Vocoder Time-Scale Modification of Audio.”
+IEEE Transactions on Speech and Audio Processing, vol. 7, no. 3, May 1999, pp. 323–332.
+DOI: https://doi.org/10.1109/89.759041
+
+Flanagan, J. L., & Golden, R. M. “Phase Vocoder.”
+Bell System Technical Journal, vol. 45, Nov. 1966, pp. 1493–1509.
+(Riferimento storico originale.)
+Deliverable: Pitch shifter real-time su input microfono, controllo in semitoni.</pre>
   <p><button id="run">Esegui</button></p>
   <script type="module">
     import { execute } from "./main.ts";
