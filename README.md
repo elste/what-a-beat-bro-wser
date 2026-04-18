@@ -1,82 +1,89 @@
 # What a Beat Bro-wser
 
-Browser-based TypeScript + Web Audio DSP curriculum with 10 progressive exercises.
+Percorso didattico browser-based su Web Audio API, DSP e TypeScript, organizzato in 10 esercizi progressivi.
 
-## Descrizione
+## Stato del progetto
 
-Questo progetto è una raccolta di esercizi didattici per Web Audio API, Digital Signal Processing e TypeScript avanzato.
-Ogni esercizio è progettato per esplorare un concetto diverso, dal semplice oscillatore sinusoidale fino a separazione delle sorgenti con NMF.
+Al momento risultano completati:
+
+- ✅ Esercizio 01 — Oscillatore sinusoidale
+- ✅ Esercizio 02 — Campionamento e aliasing
+
+In roadmap:
+
+- ⏳ Esercizio 03 — DFT da zero
+- ⏳ Esercizio 04 — FFT live windowing
+- ⏳ Esercizio 05 — Filtri biquad IIR
+- ⏳ Esercizio 06 — Convoluzione riverbero
+- ⏳ Esercizio 07 — Phase vocoder pitch
+- ⏳ Esercizio 08 — Onset detection BPM
+- ⏳ Esercizio 09 — Sintesi FM Chowning
+- ⏳ Esercizio 10 — Source separation NMF
+
+## Obiettivo
+
+Il repository raccoglie piccole esperienze pratiche per studiare:
+
+- generazione sonora nel browser
+- campionamento, aliasing e analisi spettrale
+- filtri, convoluzione e trasformate
+- tecniche avanzate di sintesi e analisi audio
 
 ## Struttura
 
-- `src/`
-  - `exercises/`
-    - `01 - Oscillatore sinusoidale/`
-    - `02 - Campionamento aliasing/`
-    - `03 - DFT da zero/`
-    - `04 - FFT live windowing/`
-    - `05 - Filtri biquad IIR/`
-    - `06 - Convoluzione riverbero/`
-    - `07 - Phase vocoder pitch/`
-    - `08 - Onset detection BPM/`
-    - `09 - Sintesi FM Chowning/`
-    - `10 - Source separation NMF/`
-- `public/` — asset pubblici
-- `index.html` — pagina principale
-- `package.json` — script di sviluppo e dipendenze
-- `tsconfig.json` — configurazione TypeScript
+- `src/exercises/` contiene tutte le esercitazioni
+- `public/` contiene eventuali asset statici
+- `index.html` è la pagina principale del progetto
+- `exercises3.html` può essere usato come pagina di accesso rapida agli esercizi
 
-## Esercizi principali
+## Avvio rapido
 
-1. Oscillatore sinusoidale in TypeScript
-2. Campionamento e aliasing
-3. DFT implementata da zero
-4. FFT live con AnalyserNode e windowing
-5. Filtri IIR biquad in AudioWorklet
-6. Convoluzione e riverbero con impulse response
-7. Phase vocoder e pitch shifting
-8. Onset detection e stima del BPM
-9. Sintesi FM Chowning
-10. Source separation NMF
+### Requisiti
 
-## Requisiti
-
-- Node.js 18+ / 20+
+- Node.js 18+ oppure 20+
 - npm
 
-## Installazione
+### Installazione
 
 ```bash
 npm install
 ```
 
-## Avvio in sviluppo
+### Sviluppo
 
 ```bash
 npm run dev
 ```
 
-Quindi apri il browser all'indirizzo indicato da Vite e naviga a uno degli esercizi in `src/exercises/`.
-
-Esempio:
+Apri poi il browser sull'indirizzo mostrato da Vite.
+Per accedere direttamente a un esercizio puoi usare un URL come:
 
 ```text
 http://localhost:5173/src/exercises/01%20-%20Oscillatore%20sinusoidale/index.html
 ```
 
-## Build
+## Elenco esercizi
+
+1. Oscillatore sinusoidale in TypeScript
+2. Campionamento e aliasing
+3. DFT implementata da zero
+4. FFT live con windowing
+5. Filtri biquad IIR
+6. Convoluzione e riverbero
+7. Phase vocoder e pitch shifting
+8. Onset detection e stima BPM
+9. Sintesi FM Chowning
+10. Source separation NMF
+
+## Script utili
 
 ```bash
+npm run dev
 npm run build
-```
-
-## Anteprima
-
-```bash
 npm run preview
 ```
 
-## Note
+## Note tecniche
 
-- Il progetto usa TypeScript con `moduleResolution: bundler` e `allowImportingTsExtensions: true`.
-- Le esercitazioni sfruttano AudioContext, AudioWorklet, AnalyserNode e altre API Web Audio.
+- Il progetto usa TypeScript con configurazione orientata a Vite.
+- Le demo sfruttano principalmente `AudioContext`, `OscillatorNode`, `AnalyserNode` e altre API Web Audio.
